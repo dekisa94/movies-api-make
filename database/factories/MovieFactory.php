@@ -4,11 +4,11 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Movie::class, function (Faker $faker) {
     return [
-        'title' => $faker->title,
+        'title' => $faker->lastName,
         'director' => $faker->firstName,
         'imageUrl' => $faker->url,
-        'duration' => $faker->randomDigit,
+        'duration' => $faker->numberBetween(60,220),
         'releaseDate' => $faker->dateTime,
-        'genre' => $faker->name
+        'genre' => $faker->randomElement(["Action", "Mistery", "Comedy", "Horror", "Fantastic"], $allowDuplicates = true)
     ];
 });

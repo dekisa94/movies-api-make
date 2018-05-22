@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 use App\Movie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\MessageBag;
@@ -38,6 +39,17 @@ class MoviesController extends Controller
     public function store(Request $request)
     {
         $movie = new Movie();
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:movies,releaseDate',
+            'director' => 'required',
+            'duration' => 'required|numeric|between:1,500',
+            'releaseDate' => 'required',
+            'imageUrl' => 'URL'
+        ]);
+        if ($validator->fails()) {
+            return new JsonResponse("Greska: Nepravilan unos parametara!");
+        }
 
         $movie->title = $request->input('title');
         $movie->director = $request->input('director');
@@ -83,12 +95,17 @@ class MoviesController extends Controller
     {
         $movie = Movie::find($id);
 
-        $request->validate([
-            'title' => 'required'
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:movies,releaseDate',
+            'director' => 'required',
+            'duration' => 'required|numeric|between:1,500',
+            'releaseDate' => 'required',
+            'imageUrl' => 'URL'
         ]);
-        if($validator->errors()){
-            return new JsonResponse(true);
-        }else{
+        if ($validator->fails()) {
+            return new JsonResponse("Greska: Nepravilan unos parametara!");
+        }
+
 
         $movie->title = $request->input('title');
         $movie->director = $request->input('director');
@@ -98,7 +115,7 @@ class MoviesController extends Controller
         $movie->genre = $request->input('genre');
 
         $movie->save();
-        return $movie;}
+        return $movie;
     }
 
     /**
