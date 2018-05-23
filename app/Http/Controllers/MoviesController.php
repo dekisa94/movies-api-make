@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Movie;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Illuminate\Support\MessageBag;
 
 class MoviesController extends Controller
 {
