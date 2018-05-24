@@ -52,7 +52,7 @@ class MoviesController extends Controller
             'imageUrl' => 'URL'
         ]);
         if ($validator->fails()) {
-            return new JsonResponse("Greska: Nepravilan unos parametara!");
+            return new JsonResponse($validator->errors(), 400);
         }
 
         $movie->title = $request->input('title');
@@ -107,7 +107,7 @@ class MoviesController extends Controller
             'imageUrl' => 'URL'
         ]);
         if ($validator->fails()) {
-            return new JsonResponse("Greska: Nepravilan unos parametara!");
+            return new JsonResponse($validator->errors(), 400);
         }
 
 
