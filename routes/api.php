@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 //Public endpoint
-Route::post('/login', 'LoginController@authenticate');
+Route::post('/login', 'Auth\LoginController@authenticate');
 
 //Private endpoint
 Route::middleware('jwt')->get('/movies', 'MoviesController@index');
