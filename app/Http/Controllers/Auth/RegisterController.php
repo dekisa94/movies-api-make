@@ -77,13 +77,15 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:3|confirmed',
+            'password' => 'required|string|min:3',
             'password_confirmation' => 'required|string|min:3',
         ]);
         if ($validator->fails()) {
             return new JsonResponse($validator->errors(), 400);
         }
-
+        if($request->input('password')!== $request->input('password_confirmation')){
+            return new JsonResponse([['Passwords doesnt match!']], 400);
+        }
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
